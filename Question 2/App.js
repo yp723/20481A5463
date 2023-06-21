@@ -48,7 +48,7 @@ const App = () => {
   useEffect(() => {
     const fetchTrainSchedules = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/train/schedule`, {
+        const response = await axios.get(`${API_BASE_URL}/train/trains`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
