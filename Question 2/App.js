@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Container, Typography, Card, CardContent } from '@mui/material';
 
+const API_BASE_URL = 'http://104.211.219.98';
+
 const HomePage = () => {
   const [trains, setTrains] = useState([]);
 
@@ -10,16 +12,46 @@ const HomePage = () => {
   }, []);
 
   const fetchTrainSchedules = async () => {
-    // Fetch train schedules from John Doe Railway API
-    const response = await fetch('http://your-api-url/train-schedules');
-    const data = await response.json();
-    setTrains(data);
+    try {
+      const token = await authenticate(); // Authenticate to obtain the access token
+      const response = await fetch(`${API_BASE_URL}/train-schedules`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setTrains(data);
+    } catch (error) {
+      console.error('Error fetching train schedules:', error);
+    }
+  };
+
+  const authenticate = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/train/register`, {
+        method: 'POST',
+        body: JSON.stringify({
+          companyName: 'Train Central',
+          ownerName: 'Ram',
+          rollNo: '20481A5463',
+          ownerEmail: 'ram@abc.edu',
+          accessCode: 'FKDLjg',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      return data.access_token;
+    } catch (error) {
+      console.error('Error authenticating:', error);
+    }
   };
 
   return (
     <Container>
       <Typography variant="h4" align="center" gutterBottom>
-        All Trains Schedule
+        All Train Schedules
       </Typography>
       {trains.map((train) => (
         <Card key={train.id} sx={{ marginBottom: '1rem' }}>
@@ -45,12 +77,19 @@ const TrainDetailsPage = () => {
   }, []);
 
   const fetchTrainDetails = async () => {
-    // Fetch train details from John Doe Railway API based on train ID
-    const response = await fetch('http://your-api-url/train-details/123');
-    const data = await response.json();
-    setTrain(data);
+    try {
+      const token = await authenticate(); // Authenticate to obtain the access token
+      const response = await fetch(`${API_BASE_URL}/train-details/123`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setTrain(data);
+    } catch (error) {
+      console.error('Error fetching train details:', error);
+    }
   };
-
   if (!train) {
     return <Typography>Loading...</Typography>;
   }
