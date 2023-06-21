@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Typography, List, ListItem, ListItemText } from '@material-ui/core';
 import axios from 'axios';
 
 const API_BASE_URL = 'http://104.211.219.98';
@@ -66,27 +67,45 @@ const App = () => {
 
   return (
     <div>
-      <h1>Train Schedule</h1>
+      <Typography variant="h4" gutterBottom>
+        Train Schedule
+      </Typography>
       {trains.length > 0 ? (
-        <ul>
+        <List>
           {trains.map((train) => (
-            <li key={train.trainNumber}>
-              <p>Name: {train.trainName}</p>
-              <p>Seats Available:</p>
-              <ul>
-                <li>Sleeper: {train.seatsAvailable.sleeper}</li>
-                <li>AC: {train.seatsAvailable.AC}</li>
-              </ul>
-              <p>Price:</p>
-              <ul>
-                <li>Sleeper: {train.price.sleeper}</li>
-                <li>AC: {train.price.AC}</li>
-              </ul>
-            </li>
+            <ListItem key={train.trainNumber}>
+              <ListItemText primary={train.trainName} />
+              <ListItemText
+                primary="Seats Available"
+                secondary={
+                  <List>
+                    <ListItem>
+                      <ListItemText primary={`Sleeper: ${train.seatsAvailable.sleeper}`} />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary={`AC: ${train.seatsAvailable.AC}`} />
+                    </ListItem>
+                  </List>
+                }
+              />
+              <ListItemText
+                primary="Price"
+                secondary={
+                  <List>
+                    <ListItem>
+                      <ListItemText primary={`Sleeper: ${train.price.sleeper}`} />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary={`AC: ${train.price.AC}`} />
+                    </ListItem>
+                  </List>
+                }
+              />
+            </ListItem>
           ))}
-        </ul>
+        </List>
       ) : (
-        <p>No train schedules available.</p>
+        <Typography variant="body1">No train schedules available.</Typography>
       )}
     </div>
   );
