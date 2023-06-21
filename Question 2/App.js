@@ -34,8 +34,8 @@ const HomePage = () => {
           companyName: 'Train Central',
           ownerName: 'Ram',
           rollNo: '20481A5463',
-          ownerEmail: 'ram@abc.edu',
-          accessCode: 'FKDLjg',
+          ownerEmail: 'ypooja72003@gmail.com',
+          accessCode: 'dWGzNM',
         }),
         headers: {
           'Content-Type': 'application/json',
